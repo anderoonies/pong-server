@@ -33,7 +33,6 @@ const processInputs = () => {
       lastProcessedIndex = i;
     });
     inputQueue[clientID].splice(0, lastProcessedIndex + 1);
-    console.log(`removing ${lastProcessedIndex} processed inputs`);
   });
 };
 
