@@ -12,7 +12,7 @@ const wss = new WebSocket.Server({ server });
 let gameState = {};
 let inputQueue = {};
 let lastInputs = {};
-let clientID = 0;
+let entityID = 0;
 
 const setState = (clientID, state) => {
   gameState[clientID] = {
@@ -41,7 +41,7 @@ const broadcastState = () => {
   wss.clients.forEach((client) => {
     state.push({
       ...gameState[client.id],
-      clientID: client.id,
+      entityID: client.id,
       lastInputID: lastInputs[client.id]
     });
   });
@@ -58,12 +58,11 @@ wss.on("connection", (ws) => {
         message: "Too many players! Wait your turn."
       })
     );
-    ws.disconnect();
     return;
   }
-  ws.id = clientID++;
+  ws.id = entityID++;
   inputQueue[ws.id] = [];
-  gameState[ws.id] = { x: Math.random() * 400, y: 0 };
+  gameState[ws.id] = { x: Math.random() * 400, y: 0, type: "paddle" };
   lastInputs[ws.id] = 0;
   ws.send(
     JSON.stringify({
