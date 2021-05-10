@@ -84,4 +84,4 @@ wss.on("connection", (ws) => {
 setInterval(() => {
   processInputs();
   broadcastState();
-}, 1000);
+}, 1000 / 4);
