@@ -46,7 +46,6 @@ const broadcastState = () => {
       lastInputID: lastInputs[client.id]
     });
   });
-  console.log(state);
   wss.clients.forEach((client) => {
     client.send(JSON.stringify({ state, type: "state" }));
   });
@@ -77,7 +76,6 @@ wss.on("connection", (ws) => {
       }
       return acc;
     }, {});
-    console.log("Client disconnected");
   });
 });
 
