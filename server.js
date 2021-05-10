@@ -51,6 +51,16 @@ const broadcastState = () => {
 };
 
 wss.on("connection", (ws) => {
+  if (Object.keys(gameState).length === 2) {
+    ws.send(
+      JSON.stringify({
+        type: "error",
+        message: "Too many players! Wait your turn."
+      })
+    );
+    ws.disconnect();
+    return;
+  }
   ws.id = clientID++;
   inputQueue[ws.id] = [];
   gameState[ws.id] = { x: Math.random() * 400, y: 0 };
